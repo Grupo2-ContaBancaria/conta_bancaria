@@ -1,0 +1,15 @@
+C:\Users\rishi\source\repos\conta_bancaria\ContaBancaria_Grupo2\ContaBancaria_Grupo2\obj\Debug\net6.0\ContaBancaria_Grupo2.csproj.AssemblyReference.cache
+C:\Users\rishi\source\repos\conta_bancaria\ContaBancaria_Grupo2\ContaBancaria_Grupo2\obj\Debug\net6.0\ContaBancaria_Grupo2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rishi\source\repos\conta_bancaria\ContaBancaria_Grupo2\ContaBancaria_Grupo2\obj\Debug\net6.0\ContaBancaria_Grupo2.AssemblyInfoInputs.cache
+C:\Users\rishi\source\repos\conta_bancaria\ContaBancaria_Grupo2\ContaBancaria_Grupo2\obj\Debug\net6.0\ContaBancaria_Grupo2.AssemblyInfo.cs
+C:\Users\rishi\source\repos\conta_bancaria\ContaBancaria_Grupo2\ContaBancaria_Grupo2\obj\Debug\net6.0\ContaBancaria_Grupo2.csproj.CoreCompileInputs.cache
+C:\Users\rishi\source\repos\conta_bancaria\ContaBancaria_Grupo2\ContaBancaria_Grupo2\bin\Debug\net6.0\ContaBancaria_Grupo2.exe
+C:\Users\rishi\source\repos\conta_bancaria\ContaBancaria_Grupo2\ContaBancaria_Grupo2\bin\Debug\net6.0\ContaBancaria_Grupo2.deps.json
+C:\Users\rishi\source\repos\conta_bancaria\ContaBancaria_Grupo2\ContaBancaria_Grupo2\bin\Debug\net6.0\ContaBancaria_Grupo2.runtimeconfig.json
+C:\Users\rishi\source\repos\conta_bancaria\ContaBancaria_Grupo2\ContaBancaria_Grupo2\bin\Debug\net6.0\ContaBancaria_Grupo2.dll
+C:\Users\rishi\source\repos\conta_bancaria\ContaBancaria_Grupo2\ContaBancaria_Grupo2\bin\Debug\net6.0\ContaBancaria_Grupo2.pdb
+C:\Users\rishi\source\repos\conta_bancaria\ContaBancaria_Grupo2\ContaBancaria_Grupo2\obj\Debug\net6.0\ContaBancaria_Grupo2.dll
+C:\Users\rishi\source\repos\conta_bancaria\ContaBancaria_Grupo2\ContaBancaria_Grupo2\obj\Debug\net6.0\refint\ContaBancaria_Grupo2.dll
+C:\Users\rishi\source\repos\conta_bancaria\ContaBancaria_Grupo2\ContaBancaria_Grupo2\obj\Debug\net6.0\ContaBancaria_Grupo2.pdb
+C:\Users\rishi\source\repos\conta_bancaria\ContaBancaria_Grupo2\ContaBancaria_Grupo2\obj\Debug\net6.0\ContaBancaria_Grupo2.genruntimeconfig.cache
+C:\Users\rishi\source\repos\conta_bancaria\ContaBancaria_Grupo2\ContaBancaria_Grupo2\obj\Debug\net6.0\ref\ContaBancaria_Grupo2.dll
