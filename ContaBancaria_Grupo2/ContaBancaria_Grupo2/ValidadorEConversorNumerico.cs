@@ -39,6 +39,7 @@ namespace ContaBancaria_Grupo2
             return numeroConvertido;
         }
 
+        // usei para converter salario
         public static double ConverterParaDouble()
         {
             string valorDigitado = Console.ReadLine();
@@ -55,7 +56,20 @@ namespace ContaBancaria_Grupo2
             return numeroConvertido;
         }
 
+        // para verificar o formulario de investidor nas alternativas, se for maior que as opções
+        
+        public static bool ValidarEntradaFormularioInvestidor(int numeroEscolhido)
+        {
+           return numeroEscolhido > 3 ? false:true;
+        }
 
+        public static void ValidadorDeNumeroDigitado(int numeroDigitado, int qtdDeAlternativas)
+        {
+            if(numeroDigitado > qtdDeAlternativas)
+            {
+                Console.WriteLine("Número Inválido");
+            }
+        }
     }
 }
 

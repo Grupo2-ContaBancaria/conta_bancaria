@@ -37,7 +37,7 @@ namespace ContaBancaria_Grupo2
             }
             else if (retorno == 3)
             {
-                ContaSalario contaS = new ContaSalario(27852322, 2541, NomeCompleto, cpf);
+                ContaSalario contaS = new ContaSalario(27852322, 2541, NomeCompleto, cpf, "");
             }
         }
     }

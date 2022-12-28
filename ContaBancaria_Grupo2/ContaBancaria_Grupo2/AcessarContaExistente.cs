@@ -59,7 +59,7 @@ namespace ContaBancaria_Grupo2
                 Console.WriteLine("Digite o número da sua Conta");
 
                 numeroConta = ValidadorEConversorNumerico.ConverterParaNumero();
-                ContaInvestimento contaP = new ContaInvestimento(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345698741);
+                ContaInvestimento contaI = new ContaInvestimento(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345698741, "Moderado");
             }
             else if (retorno == 3)
             {
@@ -76,7 +76,7 @@ namespace ContaBancaria_Grupo2
 
                 numeroConta = ValidadorEConversorNumerico.ConverterParaNumero(); ;
 
-                ContaSalario contaP = new ContaSalario(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345698741);
+                ContaSalario contaS = new ContaSalario(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345698741, "Maquina de Nomes Ltda");
             }
             
         }

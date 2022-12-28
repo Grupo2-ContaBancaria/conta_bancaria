@@ -1,6 +1,7 @@
 ﻿using ContaBancaria_Grupo2;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,66 +10,108 @@ using System.Threading.Tasks;
 internal class ContaInvestimento : Conta
 {
     public string perfil { get; protected set; }
-    public ContaInvestimento(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf) : base(numeroConta, numeroAgencia, nomeCompleto, cpf)
+    public ContaInvestimento(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf, string nomePerfil = "") : base(numeroConta, numeroAgencia, nomeCompleto, cpf)
     {
-        MontarPerfil();
+        MontarPerfil(nomePerfil);
     }
-     
 
-    public void MontarPerfil()
+    //Nesta situação o nome do perfil permite ser vazio ou preenchido, esta opçõ existe pois se o acesso for para conta existente
+    //o perfil ja vira setado como Moderado.
+
+    public void MontarPerfil(string nomePerfil = "")
     {
-        
-        Console.WriteLine("Para finalizar a abertura da Conta Investimento responda o Formulário de classificação de Investidor:");
-
+        int numeroDigitado = 0;
+        bool sucesso = false;
         //será acumulado a pontuação para analisar o perfil do investidor
         int pontuacaoInvestidor = 0;
 
         // ficará gravado a qualificação, depois que todas as perguntas forem respondidas e o metodo for chamado.
         string qualificacaoInvestidor = "";
 
-        Console.WriteLine("1- Por quanto tempo pretende deixar seu dinheiro investido?\n(1)menos de 6 meses\n(2)Entre 1 ano e 3 anos\n(3)Acima de 3 anos ");
-        
-        pontuacaoInvestidor += ValidadorEConversorNumerico.ConverterParaNumero();
+        if (nomePerfil == "")
+        {
+            Console.WriteLine("Para finalizar a abertura da Conta Investimento responda o Formulário de classificação de Investidor:");
 
 
-        //chamar a função que converte 
-        //Depois de converter o numero, precisa buscar o peso dele na tabela(conforme escolha) e somar a pontuação do investidor
-        
+            Console.WriteLine("1- Por quanto tempo pretende deixar seu dinheiro investido?\n(1)menos de 6 meses\n(2)Entre 1 ano e 3 anos\n(3)Acima de 3 anos ");
 
-        Console.WriteLine("2- Qual o objetivo desse investimento?\n(1)Preservação de capital, assumindo riscos baixos\n(2)Aumento gradual do capita, assumindo riscos moderados" +
-            "\n(3)Obter retornos elevados e significativos, assumindo riscos elevados ");
 
-        pontuacaoInvestidor += ValidadorEConversorNumerico.ConverterParaNumero();
-        
+            while (!sucesso)
+            {
+                numeroDigitado = ValidadorEConversorNumerico.ConverterParaNumero();
+                sucesso = ValidadorEConversorNumerico.ValidarEntradaFormularioInvestidor(numeroDigitado);
+            }
+            pontuacaoInvestidor += numeroDigitado;
+            sucesso = false;
 
-        Console.WriteLine("3- Qual das alternativas melhor classifica sua experiência com o mercado financeiro:" +
-            "\n(1)Não possuo formação acadêmica ou conhecimento de mercado financeiro" +
-            "\n(2)Possuo formação academica na area financeira, mas não tenho experiencia com o mercado financeiro" +
-            "\n(3)Possuo formação academia em outra area ou na area financeira, mas possuo conhecimento no mercado financeiro ");
-        pontuacaoInvestidor += ValidadorEConversorNumerico.ConverterParaNumero();
-        
+            //Depois de converter o numero, precisa buscar o peso dele na tabela(conforme escolha) e somar a pontuação do investidor
 
-        Console.WriteLine("4- Quais investimento você conhece ou ja investe?" +
-           "\n(1)Poupança, CDB e titulos públicos" +
-           "\n(2)Titulos Publicos, CDBs, Fundos de Investimentos" +
-           "\n(3)Renda Variavel, Renda Fixa, Fundos de Multimercado e Cambiais, Debentures e Derivativos ");
-        pontuacaoInvestidor += ValidadorEConversorNumerico.ConverterParaNumero();
-        
 
-        //chamar metodo para verificar a qual perfil se encaixa a pontuação atingida
+            Console.WriteLine("2- Qual o objetivo desse investimento?\n(1)Preservação de capital, assumindo riscos baixos\n(2)Aumento gradual do capita, assumindo riscos moderados" +
+                "\n(3)Obter retornos elevados e significativos, assumindo riscos elevados ");
 
-        qualificacaoInvestidor = AnalisadorPerfilInvestidor(pontuacaoInvestidor);
-        Console.WriteLine($"Seu Perfil de Investidor é {qualificacaoInvestidor}");
+            numeroDigitado = ValidadorEConversorNumerico.ConverterParaNumero();
+            sucesso = ValidadorEConversorNumerico.ValidarEntradaFormularioInvestidor(numeroDigitado);
+            while (!sucesso)
+            {
+                numeroDigitado = ValidadorEConversorNumerico.ConverterParaNumero();
+                sucesso = ValidadorEConversorNumerico.ValidarEntradaFormularioInvestidor(numeroDigitado);
+            }
+            pontuacaoInvestidor += numeroDigitado;
+            sucesso = false;
 
-        //atribuo o perfil a propriedade
-        perfil = qualificacaoInvestidor;
+            Console.WriteLine("3- Qual das alternativas melhor classifica sua experiência com o mercado financeiro:" +
+                "\n(1)Não possuo formação acadêmica ou conhecimento de mercado financeiro" +
+                "\n(2)Possuo formação academica na area financeira, mas não tenho experiencia com o mercado financeiro" +
+                "\n(3)Possuo formação academia em outra area ou na area financeira, mas possuo conhecimento no mercado financeiro ");
+            while (!sucesso)
+            {
+                numeroDigitado = ValidadorEConversorNumerico.ConverterParaNumero();
+                sucesso = ValidadorEConversorNumerico.ValidarEntradaFormularioInvestidor(numeroDigitado);
+            }
+            pontuacaoInvestidor += numeroDigitado;
+            sucesso = false;
 
-        Console.Clear();
+            Console.WriteLine("4- Quais investimento você conhece ou ja investe?" +
+               "\n(1)Poupança, CDB e titulos públicos" +
+               "\n(2)Titulos Publicos, CDBs, Fundos de Investimentos" +
+               "\n(3)Renda Variavel, Renda Fixa, Fundos de Multimercado e Cambiais, Debentures e Derivativos ");
+            while (!sucesso)
+            {
+                numeroDigitado = ValidadorEConversorNumerico.ConverterParaNumero();
+                sucesso = ValidadorEConversorNumerico.ValidarEntradaFormularioInvestidor(numeroDigitado);
+            }
+            pontuacaoInvestidor += numeroDigitado;
 
-        //mensagem de boas vindas
-        Saudacao("Investimento");
+            Console.Clear();
 
-        //Conta será criada e terá que apresentar um menu, para navegar nas opções
+            //chamar metodo para verificar a qual perfil se encaixa a pontuação atingida
+
+            qualificacaoInvestidor = AnalisadorPerfilInvestidor(pontuacaoInvestidor);
+            Console.WriteLine($"Seu Perfil de Investidor é {qualificacaoInvestidor}");
+
+            //atribuo o perfil a propriedade
+            perfil = qualificacaoInvestidor;
+
+            
+            //mensagem de boas vindas
+            Saudacao("Investimento");
+            Console.WriteLine($"Seu Saldo Atual {Saldo}");
+
+            //Conta será criada e terá que apresentar um menu, para navegar nas opções
+        }
+        else
+        {
+            //se o acesso for atraves da opçao acessar conta existente, iniciara por aqui
+            //com o perfil do investidor como "moderado".
+            perfil = nomePerfil;
+            Console.Clear();
+
+            //mensagem de boas vindas
+            Console.WriteLine($"Bem Vindo(a),{NomeCompleto}\nAg:{NumeroAgencia} conta Investimento:{NumeroConta}");
+            Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2",CultureInfo.InvariantCulture)}");
+        }
+
     }
 
     public static string AnalisadorPerfilInvestidor(int pontuacao)
@@ -90,7 +133,7 @@ internal class ContaInvestimento : Conta
         return perfil;
 
     }
-    
+
 }
 
 

@@ -1,6 +1,7 @@
 ﻿using ContaBancaria_Grupo2;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
@@ -15,55 +16,71 @@ class ContaSalario : Conta
 
     public string Cargo { get; protected set; }
     public double Salario { get; protected set; }
-    public ContaSalario(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf) : base(numeroConta, numeroAgencia, nomeCompleto, cpf)
+    public ContaSalario(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf, string empregador="") : base(numeroConta, numeroAgencia, nomeCompleto, cpf)
     {
-        
-        SolicitarDadosHolerite();
+
+        SolicitarDadosHolerite(empregador);
     }
 
-    public void SolicitarDadosHolerite()
+    public void SolicitarDadosHolerite(string empregador = "")
     {
-        Console.WriteLine("Para finalizar a abertura da Conta Salario responda:");
+        if(empregador == "")
+        {
+            Console.WriteLine("Para finalizar a abertura da Conta Salario responda:");
 
-        Console.WriteLine("Nome da Empresa: ");
-        this.NomeEmpregador = Console.ReadLine();
+            Console.WriteLine("Nome da Empresa: ");
+            this.NomeEmpregador = Console.ReadLine();
 
-        Console.WriteLine("CNPJ da Empresa: ");
-        this.Cnpj = ValidadorEConversorNumerico.ConverterParaLong();
+            Console.WriteLine("CNPJ da Empresa: ");
+            this.Cnpj = ValidadorEConversorNumerico.ConverterParaLong();
+
+            Console.WriteLine("Seu Cargo: ");
+            this.Cargo = Console.ReadLine();
+
+            Console.WriteLine("Seu Salário Bruto: ");
+            this.Salario = ValidadorEConversorNumerico.ConverterParaDouble();
+            
+            Console.Clear();
+            Saudacao("Salário");
+            Console.WriteLine($"Seu Saldo Atual {Saldo}");
+        }
+        else
+        {
+            //se o acesso for atraves da opçao acessar conta existente, iniciara por aqui
+            //com os dados do holerites setados.
+            NomeEmpregador = empregador;
+            Cnpj = 00112112000139;
+            Cargo = "Vendedor";
+            Salario = 2500.00;
+
+            Console.Clear();
+
+            //mensagem de boas vindas
+            Console.WriteLine($"Bem Vindo(a),{NomeCompleto}\nAg:{NumeroAgencia} conta Salário:{NumeroConta}");
+            Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
+        }
         
-        Console.WriteLine("Seu Cargo: ");
-        this.Cargo = Console.ReadLine();
-
-        Console.WriteLine("Seu Salário Bruto: ");
-        this.Salario =  ValidadorEConversorNumerico.ConverterParaDouble();
-        //chamar a função que converte ****Pendente
-
-        Console.Clear();
-        Saudacao("Salário");
-
     }
 
     public override void Depositar(double valor)
     {
         Console.WriteLine("informe o CNPJ do Empregador:");
-        string cnpj = Console.ReadLine();
+        long numeroCnpj = ValidadorEConversorNumerico.ConverterParaLong();
+        if(numeroCnpj != Cnpj)
+        {
+            Console.WriteLine("Dado Inválido!");
+        }
+        else
+        {
+            base.Depositar(valor);
+        }
 
-        //incluir um conversor de string para long e validar que tudo é numero. ***Pendente
-
-        base.Depositar(valor);
+        
 
         //Precisa incluir a movimentação no extrato, com um DateTime e o valor informando que é Deposito e o valor
     }
 
-    public override void ExibirMenu(string opcaoDigitada)
-    {
-        Console.WriteLine("Escolha o que deseja fazer: \n" +
-            "(01) Deposito\n" +
-            "(02) Saque\n" +
-            "(03) Consultar Extrato\n" +
-            "(04) Depositar Salário");
-        
-    }
+
 
 }
 
