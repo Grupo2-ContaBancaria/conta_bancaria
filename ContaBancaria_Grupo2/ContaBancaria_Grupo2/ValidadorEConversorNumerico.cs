@@ -57,19 +57,29 @@ namespace ContaBancaria_Grupo2
         }
 
         // para verificar o formulario de investidor nas alternativas, se for maior que as opções
-        
-        public static bool ValidarEntradaFormularioInvestidor(int numeroEscolhido)
+
+        public static int ValidarEntradaFormularioInvestidor()
         {
-           return numeroEscolhido > 3 ? false:true;
+            var numeroAlternativa = ConverterParaNumero();
+            if (numeroAlternativa > 3)
+            {
+                Console.WriteLine("Alternativa inválida.");
+                ValidarEntradaFormularioInvestidor();
+            }
+            return numeroAlternativa;
+        }
+        public static int ValidarEntradaMenuInvestidor()
+        {
+            var numeroAlternativa = ConverterParaNumero();
+            if (numeroAlternativa > 5)
+            {
+                Console.WriteLine("Alternativa inválida.");
+                ValidarEntradaFormularioInvestidor();
+            }
+            return numeroAlternativa;
         }
 
-        public static void ValidadorDeNumeroDigitado(int numeroDigitado, int qtdDeAlternativas)
-        {
-            if(numeroDigitado > qtdDeAlternativas)
-            {
-                Console.WriteLine("Número Inválido");
-            }
-        }
+
     }
 }
 

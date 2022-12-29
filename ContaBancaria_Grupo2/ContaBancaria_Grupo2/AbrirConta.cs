@@ -29,7 +29,7 @@ namespace ContaBancaria_Grupo2
             //instanciando a conta conforme escolha
             if (retorno == 1)
             {
-                ContaPoupanca contaP = new ContaPoupanca(258902, 2541, NomeCompleto, cpf);
+                ContaPoupanca contaP = new ContaPoupanca(258902, 2541, NomeCompleto, cpf, 0.0);
             }
             else if (retorno == 2)
             {                
@@ -39,6 +39,7 @@ namespace ContaBancaria_Grupo2
             {
                 ContaSalario contaS = new ContaSalario(27852322, 2541, NomeCompleto, cpf, "");
             }
+            
         }
     }
 }

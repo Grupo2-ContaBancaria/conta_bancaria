@@ -59,7 +59,56 @@ class ContaSalario : Conta
             Console.WriteLine($"Bem Vindo(a),{NomeCompleto}\nAg:{NumeroAgencia} conta Salário:{NumeroConta}");
             Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
         }
-        
+        //apos iniciar a conta aparecerá o menu mostrando as possibilidades com novas interações
+        // o menu aparece no console, indeterminadas vezes, até que a opção 5 seja acionada, assim ele encerrará
+
+        int escolhaDigitadaNoMenu = MenuDeInteracoes.MenuContaSalario();
+        do
+        {
+
+
+            Saldo = MenuEscolhas(escolhaDigitadaNoMenu, Saldo);
+            Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
+
+            escolhaDigitadaNoMenu = MenuDeInteracoes.MenuContaSalario();
+
+        } while (escolhaDigitadaNoMenu < 5);
+
+
+
+    }
+    public double MenuEscolhas(int escolha, double valorEmConta)
+    {
+        double atualizarSaldo = 0.0;
+        switch (escolha)
+        {
+
+            case 1:
+                Console.WriteLine("Qual valor deseja Depositar:");
+                double valorDeposito = ValidadorEConversorNumerico.ConverterParaDouble();
+                Depositar(valorDeposito);
+
+                atualizarSaldo = valorEmConta + valorDeposito;
+                break;
+
+            case 2:
+                Console.WriteLine("Qual valor deseja Sacar:");
+                double valorSaque = ValidadorEConversorNumerico.ConverterParaDouble();
+                Sacar(valorSaque);
+
+                atualizarSaldo = valorEmConta - valorSaque;
+                break;
+           
+            case 3:
+                //exibirá o extrato
+                break;
+            case 4:
+                Environment.Exit(0);
+                break;
+
+        }
+        return atualizarSaldo;
+
     }
 
     public override void Depositar(double valor)

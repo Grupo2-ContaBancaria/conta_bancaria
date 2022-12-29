@@ -43,7 +43,7 @@ namespace ContaBancaria_Grupo2
 
                 numeroConta = ValidadorEConversorNumerico.ConverterParaNumero(); ;
 
-                ContaPoupanca contaP = new ContaPoupanca(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345698741);
+                ContaPoupanca contaP = new ContaPoupanca(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345698741,50.00);
             }
             else if (retorno == 2)
             {

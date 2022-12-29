@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,6 +65,15 @@ public abstract class Conta
         Console.WriteLine(mensagem);
     }
 
+    public virtual void Extrato(string tipoTransacao, DateTime diaTransacao, DateTime horaTransacao, double valorTransacao)
+    {
+        Console.WriteLine("Extrato Bancario");
+
+        Console.WriteLine($"{diaTransacao} - {horaTransacao} - {tipoTransacao} R$ {valorTransacao.ToString("F2",CultureInfo.InvariantCulture)}");
+       
+
+
+    }
     
 
 
