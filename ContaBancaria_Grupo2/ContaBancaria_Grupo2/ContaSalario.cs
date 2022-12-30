@@ -16,15 +16,15 @@ class ContaSalario : Conta
 
     public string Cargo { get; protected set; }
     public double Salario { get; protected set; }
-    public ContaSalario(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf, string empregador="") : base(numeroConta, numeroAgencia, nomeCompleto, cpf)
+    public ContaSalario(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf, string empregador = "") : base(numeroConta, numeroAgencia, nomeCompleto, cpf)
     {
 
         SolicitarDadosHolerite(empregador);
     }
 
-    public void SolicitarDadosHolerite(string empregador = "")
+    private void SolicitarDadosHolerite(string empregador = "")
     {
-        if(empregador == "")
+        if (empregador == "")
         {
             Console.WriteLine("Para finalizar a abertura da Conta Salario responda:");
 
@@ -39,7 +39,7 @@ class ContaSalario : Conta
 
             Console.WriteLine("Seu Salário Bruto: ");
             this.Salario = ValidadorEConversorNumerico.ConverterParaDouble();
-            
+
             Console.Clear();
             Saudacao("Salário");
             Console.WriteLine($"Seu Saldo Atual {Saldo}");
@@ -77,35 +77,45 @@ class ContaSalario : Conta
 
 
     }
-    public double MenuEscolhas(int escolha, double valorEmConta)
+    private double MenuEscolhas(int escolha, double valorEmConta)
     {
-        double atualizarSaldo = 0.0;
-        switch (escolha)
+        double atualizarSaldo = valorEmConta;
+        try
+        {
+            
+            switch (escolha)
+            {
+
+                case 1:
+                    Console.WriteLine("Qual valor deseja Depositar:");
+                    double valorDeposito = ValidadorEConversorNumerico.ConverterParaDouble();
+                    Depositar(valorDeposito);
+                    atualizarSaldo = valorEmConta + valorDeposito;
+                    IncluirTransacaoNoExtrato(TipoOperacao.DEPOSITO_SALARIO, valorDeposito);
+                    break;
+
+                case 2:
+                    Console.WriteLine("Qual valor deseja Sacar:");
+                    double valorSaque = ValidadorEConversorNumerico.ConverterParaDouble();
+                    Sacar(valorSaque);
+                    atualizarSaldo = valorEmConta - valorSaque;
+                    IncluirTransacaoNoExtrato(TipoOperacao.SAQUE, valorSaque);
+                    break;
+
+                case 3:
+                    atualizarSaldo = valorEmConta;
+                    MostrarExtrato();
+                    break;
+                case 4:
+                    Environment.Exit(0);
+                    break;
+
+            }
+        }
+        catch (Exception e )
         {
 
-            case 1:
-                Console.WriteLine("Qual valor deseja Depositar:");
-                double valorDeposito = ValidadorEConversorNumerico.ConverterParaDouble();
-                Depositar(valorDeposito);
-
-                atualizarSaldo = valorEmConta + valorDeposito;
-                break;
-
-            case 2:
-                Console.WriteLine("Qual valor deseja Sacar:");
-                double valorSaque = ValidadorEConversorNumerico.ConverterParaDouble();
-                Sacar(valorSaque);
-
-                atualizarSaldo = valorEmConta - valorSaque;
-                break;
-           
-            case 3:
-                //exibirá o extrato
-                break;
-            case 4:
-                Environment.Exit(0);
-                break;
-
+            Console.WriteLine(e.Message); 
         }
         return atualizarSaldo;
 
@@ -115,18 +125,18 @@ class ContaSalario : Conta
     {
         Console.WriteLine("informe o CNPJ do Empregador:");
         long numeroCnpj = ValidadorEConversorNumerico.ConverterParaLong();
-        if(numeroCnpj != Cnpj)
+        if (numeroCnpj != Cnpj)
         {
-            Console.WriteLine("Dado Inválido!");
+            throw new Exception("Dado Inválido!");
         }
         else
         {
             base.Depositar(valor);
         }
 
-        
 
-        //Precisa incluir a movimentação no extrato, com um DateTime e o valor informando que é Deposito e o valor
+
+
     }
 
 

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ContaBancaria_Grupo2
 {
-     class AbrirConta
+    class AbrirConta
     {
         public static void AbrirContas(int numeroQueEscolheQualACategoriaDaConta)
         {
-            
+
             int retorno = numeroQueEscolheQualACategoriaDaConta;
             //recebo o retorno e entro na opção para instanciar a conta escolhida
 
@@ -23,23 +23,24 @@ namespace ContaBancaria_Grupo2
             NomeCompleto = Console.ReadLine();
 
             Console.WriteLine("Digite os 11 digitos do seu CPF:");
-            
+
             cpf = ValidadorEConversorNumerico.ConverterParaLong();
-            
+
             //instanciando a conta conforme escolha
             if (retorno == 1)
             {
                 ContaPoupanca contaP = new ContaPoupanca(258902, 2541, NomeCompleto, cpf, 0.0);
+
             }
             else if (retorno == 2)
-            {                
-                ContaInvestimento contaI= new ContaInvestimento(25890022, 2541, NomeCompleto, cpf);
+            {
+                ContaInvestimento contaI = new ContaInvestimento(25890022, 2541, NomeCompleto, cpf);
             }
             else if (retorno == 3)
             {
                 ContaSalario contaS = new ContaSalario(27852322, 2541, NomeCompleto, cpf, "");
             }
-            
+
         }
     }
 }

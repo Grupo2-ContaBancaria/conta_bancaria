@@ -114,39 +114,49 @@ internal class ContaInvestimento : Conta
 
 
     }
-    public double MenuEscolhas(int escolha, double valorEmConta)
+    private double MenuEscolhas(int escolha, double valorEmConta)
     {
         double atualizarSaldo = 0.0;
-        switch (escolha)
+        try
+        {
+            switch (escolha)
+            {
+
+                case 1:
+                    Console.WriteLine("Qual valor deseja Depositar:");
+                    double valorDeposito = ValidadorEConversorNumerico.ConverterParaDouble();
+                    Depositar(valorDeposito);
+                    atualizarSaldo = valorEmConta + valorDeposito;
+                    IncluirTransacaoNoExtrato(TipoOperacao.DEPOSITO, valorDeposito);
+                    break;
+
+                case 2:
+                    Console.WriteLine("Qual valor deseja Sacar:");
+                    double valorSaque = ValidadorEConversorNumerico.ConverterParaDouble();
+                    Sacar(valorSaque);
+                    atualizarSaldo = valorEmConta - valorSaque;
+                    IncluirTransacaoNoExtrato(TipoOperacao.SAQUE, valorSaque);
+                    break;
+
+                case 3:
+                    double valorCompradoDeAcao = ComprarAcao(valorEmConta);
+                    atualizarSaldo = valorCompradoDeAcao;
+                    IncluirTransacaoNoExtrato(TipoOperacao.COMPRA_ACAO, valorCompradoDeAcao);
+                    break;
+                case 4:
+                    atualizarSaldo = valorEmConta;
+                    MostrarExtrato();
+                    break;
+                case 5:
+                    Environment.Exit(0);
+                    break;
+
+            }
+        }
+        catch (Exception e)
         {
 
-            case 1:
-                Console.WriteLine("Qual valor deseja Depositar:");
-                double valorDeposito = ValidadorEConversorNumerico.ConverterParaDouble();
-                Depositar(valorDeposito);
-
-                atualizarSaldo = valorEmConta + valorDeposito;
-                break;
-
-            case 2:
-                Console.WriteLine("Qual valor deseja Sacar:");
-                double valorSaque = ValidadorEConversorNumerico.ConverterParaDouble();
-                Sacar(valorSaque);
-
-                atualizarSaldo = valorEmConta - valorSaque;
-                break;
-
-            case 3:
-                double valorCompradoDeAcao = ComprarAcao(valorEmConta);
-                atualizarSaldo = valorCompradoDeAcao;
-                break;
-            case 4:
-                //exibirá o extrato
-                break;
-            case 5:
-                Environment.Exit(0);
-                break;
-
+            Console.WriteLine(e.Message);
         }
         return atualizarSaldo;
 
@@ -159,7 +169,7 @@ internal class ContaInvestimento : Conta
         {
             perfil = "Conservador";
         }
-        else if (pontuacao <= 11)
+        else if (pontuacao <= 10)
         {
             perfil = "Moderado";
         }
@@ -173,6 +183,7 @@ internal class ContaInvestimento : Conta
     public override void Depositar(double valor)
     {
         base.Depositar(valor);
+
     }
     public override void Sacar(double valor)
     {

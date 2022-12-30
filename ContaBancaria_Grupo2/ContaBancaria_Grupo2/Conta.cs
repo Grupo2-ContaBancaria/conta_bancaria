@@ -1,11 +1,13 @@
-﻿using System;
+﻿using ContaBancaria_Grupo2;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
-public abstract class Conta
+public abstract class Conta : ListaExtrato
 {
     public int NumeroConta { get; protected set; }
     public int NumeroAgencia { get; protected set; }
@@ -48,9 +50,8 @@ public abstract class Conta
         if (Saldo < valor)
         {
             //Indica que o valor no saldo é menor que o solicitado para saque
-            Console.WriteLine("Operação Negada por falta de limite disponivel.");
-
-            //Precisa voltar para o menu iniciar **Pendente
+            throw new Exception("Operação Negada por falta de limite disponivel.");
+            
         }
         else
         {
@@ -65,16 +66,16 @@ public abstract class Conta
         Console.WriteLine(mensagem);
     }
 
-    public virtual void Extrato(string tipoTransacao, DateTime diaTransacao, DateTime horaTransacao, double valorTransacao)
-    {
-        Console.WriteLine("Extrato Bancario");
+    
 
-        Console.WriteLine($"{diaTransacao} - {horaTransacao} - {tipoTransacao} R$ {valorTransacao.ToString("F2",CultureInfo.InvariantCulture)}");
-       
+    public virtual void TaxaBancaria()
+    {
+        
+
 
 
     }
-    
+
 
 
 }
