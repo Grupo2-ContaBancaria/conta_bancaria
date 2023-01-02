@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ContaBancaria_Grupo2
 {
-    internal class ConfiguracaoLayout
+    public class ConfiguracaoLayout
     {
         public static void LayoutDoConsole()
         {

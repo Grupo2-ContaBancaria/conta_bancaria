@@ -85,7 +85,7 @@ class ContaSalario : Conta
 
     }
 
-    public virtual void TaxaBancaria()
+    public override void TaxaBancaria()
     {
         /*Se for multiplicação o calculo da taxa, usar este codigo
          * double percentualDeDesconto = 0.0;

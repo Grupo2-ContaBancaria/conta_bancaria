@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class ContaPoupanca : Conta
+class ContaPoupanca : Conta
 {
     //ESTA CLASSE HERDA AS PROPRIEDADES OBRIGATORIAS DA CLASSE CONTA 
 
@@ -63,7 +63,7 @@ public class ContaPoupanca : Conta
 
     
    
-    public virtual void TaxaBancaria()
+    public override void TaxaBancaria()
     {
         /*Se for multiplicação o calculo da taxa, usar este codigo
          * double percentualDeDesconto = 0.0;

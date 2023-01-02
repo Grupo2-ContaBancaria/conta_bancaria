@@ -13,10 +13,9 @@ public abstract class Conta : ListaExtrato
     public int NumeroAgencia { get; protected set; }
     public string NomeCompleto { get; protected set; }
     public long CPF { get; protected set; }
-    public double TaxaManutencao { get; protected set; }
     public double Saldo { get; protected set; }
 
-    public string TipoAcaoDaConta { get; set; } = "";
+    public string TipoAcaoDaConta { get; protected set; } = "";
 
     public Conta(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf)
     {
@@ -42,7 +41,7 @@ public abstract class Conta : ListaExtrato
         }
     }
 
-   //METODOS
+    //METODOS
 
     public virtual void Depositar(double valor)
     {
@@ -96,7 +95,7 @@ public abstract class Conta : ListaExtrato
     - Para a contaPoupanca: taxa de 0.3,5
     - Para a contaSalario: taxa de 0.3
     */
-   
+
 
     //METODO DO MENU DE OPÇÕES E ACOES DISPONIVEIS DAS CONTAS
     public void AcoesDaConta()

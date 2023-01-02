@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public class ContaInvestimento : Conta
+class ContaInvestimento : Conta
 {
     //ESTA CLASSE HERDA AS PROPRIEDADES OBRIGATORIAS DA CLASSE CONTA E NOVAS PROPRIEDADES 
     public string? Perfil { get; protected set; }
     
-    public static Painel_Investimento? painel_Investimento { get; set; }
+    public static Painel_Investimento? painel_Investimento { get;protected set; }
 
     //CONSTRUTORA DA CLASSE
     public ContaInvestimento(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf) : base(numeroConta, numeroAgencia, nomeCompleto, cpf)
@@ -171,7 +171,7 @@ public class ContaInvestimento : Conta
         return sobra;
     }
 
-    public virtual void TaxaBancaria()
+    public override void TaxaBancaria()
     {
         /*Se for multiplicação o calculo da taxa, usar este codigo
          * double percentualDeDesconto = 0.0;
