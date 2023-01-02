@@ -8,10 +8,11 @@ namespace ContaBancaria_Grupo2
 {
     public static class ValidadorEConversorNumerico
     {
-        // metodos de conversão, eles fazem a pergunta, recebem o retornam, convertem e em caso de erro entram no loop (recursividade)
+        // METODO DE CONVERSÃO, ELE RECEBE A ENTRADA DO USUARIO, VALIDA E CONVERTE (ATRAVES DA RECURSIVIDADE E POSSIVEL GARATIR QUE A ENTRADA SERÁ UM NÚMERO.
         public static int ConverterParaNumero()
         {
             string valorDigitado = Console.ReadLine();
+
             bool validador = int.TryParse(valorDigitado, out int numeroConvertido);
 
             if (!validador)
@@ -22,11 +23,14 @@ namespace ContaBancaria_Grupo2
             }
             return numeroConvertido;
         }
-        //usei o long para o CPF, mas precisa incluir algo que valide a quantidade de caracter digitado **Verificar um metodo ou ação de validação
+        //METODO DE CONVERSAO PARA LONG, UTLIZADO NO CPF
         public static long ConverterParaLong()
         {
             string valorDigitado = Console.ReadLine();
+
             bool validador = long.TryParse(valorDigitado, out long numeroConvertido);
+
+            ValidarTamanhoDoCpf(valorDigitado);
 
 
             if (!validador)
@@ -38,8 +42,26 @@ namespace ContaBancaria_Grupo2
 
             return numeroConvertido;
         }
+        public static long ConverterParaLongCnpj()
+        {
+            string valorDigitado = Console.ReadLine();
 
-        // usei para converter salario
+            bool validador = long.TryParse(valorDigitado, out long numeroConvertido);
+
+            ValidarTamanhoDoCnpj(valorDigitado);
+
+
+            if (!validador)
+            {
+                Console.WriteLine("O valor digitado é inválido. Digite novamente:");
+                return ConverterParaLongCnpj();
+            }
+
+
+            return numeroConvertido;
+        }
+
+        // METODO DE CONVERSAO PARA DOUBLE, UTILIZADO NO SALARIO
         public static double ConverterParaDouble()
         {
             string valorDigitado = Console.ReadLine();
@@ -56,7 +78,7 @@ namespace ContaBancaria_Grupo2
             return numeroConvertido;
         }
 
-        // para verificar o formulario de investidor nas alternativas, se for maior que as opções
+        //METODOS DE VALIDAÇÃO
 
         public static int ValidarEntradaFormularioInvestidor()
         {
@@ -68,18 +90,32 @@ namespace ContaBancaria_Grupo2
             }
             return numeroAlternativa;
         }
-        public static int ValidarEntradaMenuInvestidor()
+
+        public static void ValidarTamanhoDoCpf(string cpf)
         {
-            var numeroAlternativa = ConverterParaNumero();
-            if (numeroAlternativa > 5)
+            int tamanhoDaString = cpf.Length;
+
+            if (tamanhoDaString != 11)
             {
-                Console.WriteLine("Alternativa inválida.");
-                ValidarEntradaFormularioInvestidor();
+                Console.WriteLine("Você não digitou corretamente. Digite novamente:");
+                ConverterParaLong();
             }
-            return numeroAlternativa;
+
+
         }
+        public static void ValidarTamanhoDoCnpj(string cpf)
+        {
+            int tamanhoDaString = cpf.Length;
+
+            if (tamanhoDaString != 14)
+            {
+                Console.WriteLine("Você não digitou corretamente. Digite novamente:");
+                ConverterParaLongCnpj();
+            }
 
 
+        }
+        
     }
 }
 

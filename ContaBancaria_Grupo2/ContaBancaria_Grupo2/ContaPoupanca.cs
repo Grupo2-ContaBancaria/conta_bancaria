@@ -8,102 +8,79 @@ using System.Threading.Tasks;
 
 public class ContaPoupanca : Conta
 {
-
+    //ESTA CLASSE HERDA AS PROPRIEDADES OBRIGATORIAS DA CLASSE CONTA 
 
     public ContaPoupanca(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf, double saldoInicial) : base(numeroConta, numeroAgencia, nomeCompleto, cpf)
     {
         double primeiroDeposito = saldoInicial;
-
+        
+        //A POUPANÇA PRECISA DE SALDO INICIAL, ENTÃO ESTA CONDIÇÃO CHAMA O METODO DEPOSITO PARA FINALIZAR A OPERAÇÃO DE ABERTURA DA CONTA
 
         if (primeiroDeposito < 50.00)
         {
+            //WHILE GARANTE QUE O 1° DEPOSITO SEJA 50,00 OU MAIOR
             do
             {
-                Console.WriteLine("Para finalizar é necessario, fazer uma transferência de valor minimo R$ 50,00.\n Digite o valor que deseja tranferir:");
+                Console.WriteLine($"{Environment.NewLine}{NomeCompleto.Split(" ")[0]}, Para finalizar é necessario, fazer uma transferência de valor minimo R$ 50,00.\n Digite o valor que deseja tranferir:");
                 primeiroDeposito = ValidadorEConversorNumerico.ConverterParaDouble();
 
             } while (primeiroDeposito < 50);
 
+            //CHAMA O METODO DE DEPOSITO
             Depositar(primeiroDeposito);
+
+            //REGISTRA NO EXTRATO
             IncluirTransacaoNoExtrato(TipoOperacao.DEPOSITO, primeiroDeposito);
-            Console.Clear();
+
+            //INICIA UMA NOVA TELA
+            ConfiguracaoLayout.ClearLayout();
+
             Saudacao("Poupança");
-            Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
+            Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}{Environment.NewLine}");
         }
         else
         {
-            //mensagem de boas vindas para conta existente
-            // nesta opção a conta inicia com saldo minimo.
-            Console.Clear();
+            //CASO A OPÇÃO SELCIONADA SEJA CONTA EXISTENTE, AS PROPRIEDADES DA CLASSE SERÃO PREENHIDAS COM AS ENTRADAS DESTES CAMPOS
+            //IMAGINA-SE QUE A CONTA FOI ABERTA NUM DIA ANTERIOR E O PROCCESSO DE DEPOSITO FOI REALIZADO COM O VALOR MINIMO
+
+            ConfiguracaoLayout.ClearLayout();
+
+            //NESTE CAMPO O SALDO VEM COMO ARGUMENTO NO VALOR MINIMO
             Saldo = primeiroDeposito;
+
+            //O REGISTRO DA OPERAÇÃO E FEITO COM DATA RETROATIVA
             IncluirTransacaoNoExtrato(TipoOperacao.DEPOSITO, primeiroDeposito,-2);
-            Console.WriteLine($"Bem Vindo(a),{NomeCompleto}\nAg:{NumeroAgencia} conta poupança:{NumeroConta}");
-            Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
+
+            Console.WriteLine($"{Environment.NewLine}Bem Vindo(a),{NomeCompleto}\nAg:{NumeroAgencia} conta poupança:{NumeroConta}");
+            Console.WriteLine($"{Environment.NewLine}Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
         }
-        //apos iniciar a conta aparecerá o menu mostrando as possibilidades com novas interações
-        // o menu aparece no console, indeterminadas vezes, até que a opção 5 seja acionada, assim ele encerrará
+        //CONTA CRIADA, CHAMADA DOS METODOS DE TAXA E MENU DE OPÇÕES
+        TaxaBancaria();
+      
 
-        int escolhaDigitadaNoMenu = MenuDeInteracoes.MenuContaPoupanca();
-        do
-        {
-
-
-            Saldo = MenuEscolhas(escolhaDigitadaNoMenu, Saldo);
-            Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
-
-            escolhaDigitadaNoMenu = MenuDeInteracoes.MenuContaPoupanca();
-
-        } while (escolhaDigitadaNoMenu < 5);
-
-
-
+        AcoesDaConta();
     }
-    private double MenuEscolhas(int escolha, double valorEmConta)
+
+    
+   
+    public virtual void TaxaBancaria()
     {
-        double atualizarSaldo = valorEmConta;
-        try
-        {
-            switch (escolha)
-            {
+        /*Se for multiplicação o calculo da taxa, usar este codigo
+         * double percentualDeDesconto = 0.0;
+         * double TaxaManutencao = 0.0;
+         * 
+         * TaxaManutencao = Saldo * percentualDeDesconto;
+         * 
+         * Saldo -=TaxaManutencao;
+         */
 
-                case 1:
-                    Console.WriteLine("Qual valor deseja Depositar:");
-                    double valorDeposito = ValidadorEConversorNumerico.ConverterParaDouble();
-                    Depositar(valorDeposito);
+        //Se for uma conta de subtração usar este aqui
+        double TaxaManutencao = 0.35;
 
-                    atualizarSaldo = valorEmConta + valorDeposito;
-                    IncluirTransacaoNoExtrato(TipoOperacao.DEPOSITO, valorDeposito);
-                    break;
-
-                case 2:
-                    Console.WriteLine("Qual valor deseja Sacar:");
-                    double valorSaque = ValidadorEConversorNumerico.ConverterParaDouble();
-                    Sacar(valorSaque);
-                    atualizarSaldo = valorEmConta - valorSaque;
-                    IncluirTransacaoNoExtrato(TipoOperacao.SAQUE, valorSaque);
-                    break;
-
-                case 3:
-                    atualizarSaldo = valorEmConta;
-                    MostrarExtrato();
-                    break;
-                case 4:
-                    Environment.Exit(0);
-                    break;
-
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-        }
-        return atualizarSaldo;
-
+        Saldo -= TaxaManutencao;
+        IncluirTransacaoNoExtrato(TipoOperacao.TAXA_MANUTENÇAO, TaxaManutencao);
     }
-    public override void Depositar(double valor)
-    {
-        base.Depositar(valor);
-    }
+        
 
 }
 

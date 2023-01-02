@@ -10,75 +10,45 @@ namespace ContaBancaria_Grupo2
     {
         public static void AcessandoContaExistente()
         {
-            Console.WriteLine("---- Banco Grupo 2 ----\n");
-
-            //Perguntar qual tipo de conta acessar
-            Console.WriteLine("Seja bem vindo:\nQual tipo de Conta deseja acessar:" +
-                "\n(1)Conta Poupança" +
-                "\n(2)Conta Investimento" +
-                "\n(3)Conta Salário" +
-                "\n" +
-                " Digite o numeral correspondente:");
-
-            //pegar a resposta
-            int retorno = ValidadorEConversorNumerico.ConverterParaNumero();
-            //converter para número a resposta
-
-
-            //recebo o retorno e entro na opção para instanciar a conta escolhida
-
+            int retorno = 0;
+            //VARIAVEIS SERÃO ATRIBUIDO PELO USUARIO
             int numeroConta = 0;
             int numeroAgencia = 0;
-
-            if (retorno == 1)
+            do
             {
-                //Perguntar as exigencias para enviar para o construtor, os campos Agencia e Conta estão fixos
-                Console.WriteLine("Digite o número da sua Agencia:");
+                //SELEÇÃO DO TIPO DE CONTA
+                Console.WriteLine("Que bom te Ver de Novo!!\nQual tipo de Conta deseja acessar:" +
+                    "\n(1)Conta Poupança" +
+                    "\n(2)Conta Investimento" +
+                    "\n(3)Conta Salário");
 
+                //ARMAZENA A RESPOSTA E CHAMA O METODO DE CONVERSÃO E VALIDAÇÃO
+                //O RETORNO DESTA VARIAVEL ARMAZENA A INFORMAÇÃO DE AUQL CONTA SERA INSTANCIADA
+                retorno = ValidadorEConversorNumerico.ConverterParaNumero();
+                               
+                Console.WriteLine("Digite o número da sua Agencia:");
                 numeroAgencia = ValidadorEConversorNumerico.ConverterParaNumero();
 
-                //converter para número a resposta
-
                 Console.WriteLine("Digite o número da sua Conta");
+                numeroConta = ValidadorEConversorNumerico.ConverterParaNumero();
 
-                numeroConta = ValidadorEConversorNumerico.ConverterParaNumero(); ;
-
-                ContaPoupanca contaP = new ContaPoupanca(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345698741,50.00);
+            } while (retorno < 1 || retorno > 3);
+           
+            //INSTANCIANDO A CONTA COM OS ARGUMENTOS NECESSARIOS PARA PREENCHIMENTO DAS PROPRIEDADES OBRIGATORIAS
+            if (retorno == 1)
+            {
+                ContaPoupanca contaP = new ContaPoupanca(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345678910, 50.00);
             }
             else if (retorno == 2)
             {
-                //Perguntar as exigencias para enviar para o construtor, os campos Agencia e Conta estão fixos
-                Console.WriteLine("Digite o número da sua Agencia:");
-
-                //pegar a resposta
-
-                numeroAgencia = ValidadorEConversorNumerico.ConverterParaNumero();
-
-                //converter para número a resposta
-
-                Console.WriteLine("Digite o número da sua Conta");
-
-                numeroConta = ValidadorEConversorNumerico.ConverterParaNumero();
-                ContaInvestimento contaI = new ContaInvestimento(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345698741, "Moderado");
+                ContaInvestimento contaI = new ContaInvestimento(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345678910);
+                contaI.MontarPerfil("Moderado");
             }
             else if (retorno == 3)
             {
-                //Perguntar as exigencias para enviar para o construtor, os campos Agencia e Conta estão fixos
-                Console.WriteLine("Digite o número da sua Agencia:");
-
-                //pegar a resposta
-
-                numeroAgencia = ValidadorEConversorNumerico.ConverterParaNumero();
-
-                //converter para número a resposta
-
-                Console.WriteLine("Digite o número da sua Conta");
-
-                numeroConta = ValidadorEConversorNumerico.ConverterParaNumero(); ;
-
-                ContaSalario contaS = new ContaSalario(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345698741, "Maquina de Nomes Ltda");
+                ContaSalario contaS = new ContaSalario(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345678910, "Maquina de Nomes Ltda");
             }
-            
+
         }
 
 

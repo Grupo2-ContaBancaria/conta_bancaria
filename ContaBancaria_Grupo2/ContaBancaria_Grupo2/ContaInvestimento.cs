@@ -1,31 +1,41 @@
 ﻿using ContaBancaria_Grupo2;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 
-internal class ContaInvestimento : Conta
+public class ContaInvestimento : Conta
 {
-    public string perfil { get; protected set; }
-    public string acoesCompradas { get; protected set; }
-    public ContaInvestimento(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf, string nomePerfil = "") : base(numeroConta, numeroAgencia, nomeCompleto, cpf)
+    //ESTA CLASSE HERDA AS PROPRIEDADES OBRIGATORIAS DA CLASSE CONTA E NOVAS PROPRIEDADES 
+    public string? Perfil { get; protected set; }
+    
+    public static Painel_Investimento? painel_Investimento { get; set; }
+
+    //CONSTRUTORA DA CLASSE
+    public ContaInvestimento(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf) : base(numeroConta, numeroAgencia, nomeCompleto, cpf)
     {
-        MontarPerfil(nomePerfil);
+        painel_Investimento = new Painel_Investimento("", 0);
     }
 
-    //Nesta situação o nome do perfil permite ser vazio ou preenchido, esta opçõ existe pois se o acesso for para conta existente
-    //o perfil ja vira setado como Moderado.
+    // NA OPÇÃO CONTA EXISTENTE O PERFIL VEM SETADO COMO ARGUMENTO QUANDO SE INSTANCIA A CLASSE
 
+    //O PERFIL DO USUARIO EM CASO DE CONTA NOVA E PREENCHIDO ATRAVES DO FORMULARIO
     public void MontarPerfil(string nomePerfil = "")
     {
+
+        Console.WriteLine("Formulário Obrigatorio para Análise de Perfil:\n");
+
+        //VARIAVEL REPONSAVEL POR ARMAZENAR O NUMERO DIGITADO PELO USUARIO
         int numeroDigitado = 0;
-        //será acumulado a pontuação para analisar o perfil do investidor
+
+        //CONTADOR DE PONTOS
         int pontuacaoInvestidor = 0;
 
-        // ficará gravado a qualificação, depois que todas as perguntas forem respondidas e o metodo for chamado.
+        // REGISTRA O NOME DO PERFIL
         string qualificacaoInvestidor = "";
 
         if (nomePerfil == "")
@@ -38,8 +48,6 @@ internal class ContaInvestimento : Conta
             numeroDigitado = ValidadorEConversorNumerico.ValidarEntradaFormularioInvestidor();
 
             pontuacaoInvestidor += numeroDigitado;
-
-            //Depois de converter o numero, precisa buscar o peso dele na tabela(conforme escolha) e somar a pontuação do investidor
 
 
             Console.WriteLine("2- Qual o objetivo desse investimento?\n(1)Preservação de capital, assumindo riscos baixos\n(2)Aumento gradual do capita, assumindo riscos moderados" +
@@ -67,109 +75,60 @@ internal class ContaInvestimento : Conta
 
             pontuacaoInvestidor += numeroDigitado;
 
-            Console.Clear();
+            //FORMULARIO PREECHIDO PERFIL JA DEFINIDO, CHAMADO DO METODO QUE LIMPA LAYOUT PARA EXIBIÇÃO DE UMA NOVA AREA
 
-            //chamar metodo para verificar a qual perfil se encaixa a pontuação atingida
+            ConfiguracaoLayout.ClearLayout(); ;
+
+            //CHAMA DA FUNÇÃO QUE IDENTIFICA E PONTUAÇÃO E A QUAL PERFIL ELA SE ENCAIXA
 
             qualificacaoInvestidor = AnalisadorPerfilInvestidor(pontuacaoInvestidor);
             Console.WriteLine($"Seu Perfil de Investidor é {qualificacaoInvestidor}");
 
-            //atribuo o perfil a propriedade
-            perfil = qualificacaoInvestidor;
+            //A PROPRIEDADE RECEBE O NOME DO PERFIL DO USUARIO, CONFORME SUAS ESCOLHAS NO FORMULARIO.
+            Perfil = qualificacaoInvestidor;
 
+            Saudacao($"Investimento");
 
-            //mensagem de boas vindas
-            Saudacao("Investimento");
-            Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
+            Console.WriteLine($"{Environment.NewLine}Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
 
-            //Conta será criada e terá que apresentar um menu, para navegar nas opções
+            //CONTA NOVA CRIADA
         }
         else
         {
-            //se o acesso for atraves da opçao acessar conta existente, iniciara por aqui
-            //com o perfil do investidor como "moderado".
-            perfil = nomePerfil;
-            Console.Clear();
+            //NESTE CASO HABILITA O ACESSO PELA CONTA EXISTENTE, ENTÃO OS ARGUMENTOS PARA ATRIBUIÇÃO DAS PROPRIEDADES SÃO DIFERENTES
 
-            //mensagem de boas vindas
-            Console.WriteLine($"Bem Vindo(a),{NomeCompleto}\nAg:{NumeroAgencia} conta Investimento:{NumeroConta}");
-            Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
+            Perfil = nomePerfil;
+
+            //PERFIL VIRÁ COMO MODERADO
+
+            ConfiguracaoLayout.ClearLayout(); ;
+
+            
+            Console.WriteLine($"{Environment.NewLine}Bem Vindo(a),{NomeCompleto}\nAg:{NumeroAgencia} \nconta Investimento:{NumeroConta}\n{Environment.NewLine}");
+            Console.WriteLine($"{Environment.NewLine}Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
         }
+        //CHAMA DA FUNÇAÕ TAXA
+        TaxaBancaria();
+                
+        //NO MENU DE OPÇÃO DESTA CONTA É INCLUIDO UMA NOVA OPÇÃO
 
-        //apos iniciar a conta aparecerá o menu mostrando as possibilidades com novas interações
-        // o menu aparece no console, indeterminadas vezes, até que a opção 5 seja acionada, assim ele encerrará
+        TipoAcaoDaConta = "Comprar Ação";
 
-        int escolhaDigitadaNoMenu = MenuDeInteracoes.MenuContaInvestimento();
-        do
-        {
-
-
-            Saldo = MenuEscolhas(escolhaDigitadaNoMenu, Saldo);
-            Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
-
-            escolhaDigitadaNoMenu = MenuDeInteracoes.MenuContaInvestimento();
-
-        } while (escolhaDigitadaNoMenu < 6);
-
+        //METODO QUE EXIBE MENU DE ATIVIDADES DA CONTA
+        AcoesDaConta();
 
 
     }
-    private double MenuEscolhas(int escolha, double valorEmConta)
+ 
+    private static string AnalisadorPerfilInvestidor(int pontuacao)
     {
-        double atualizarSaldo = 0.0;
-        try
-        {
-            switch (escolha)
-            {
-
-                case 1:
-                    Console.WriteLine("Qual valor deseja Depositar:");
-                    double valorDeposito = ValidadorEConversorNumerico.ConverterParaDouble();
-                    Depositar(valorDeposito);
-                    atualizarSaldo = valorEmConta + valorDeposito;
-                    IncluirTransacaoNoExtrato(TipoOperacao.DEPOSITO, valorDeposito);
-                    break;
-
-                case 2:
-                    Console.WriteLine("Qual valor deseja Sacar:");
-                    double valorSaque = ValidadorEConversorNumerico.ConverterParaDouble();
-                    Sacar(valorSaque);
-                    atualizarSaldo = valorEmConta - valorSaque;
-                    IncluirTransacaoNoExtrato(TipoOperacao.SAQUE, valorSaque);
-                    break;
-
-                case 3:
-                    double valorCompradoDeAcao = ComprarAcao(valorEmConta);
-                    atualizarSaldo = valorCompradoDeAcao;
-                    IncluirTransacaoNoExtrato(TipoOperacao.COMPRA_ACAO, valorCompradoDeAcao);
-                    break;
-                case 4:
-                    atualizarSaldo = valorEmConta;
-                    MostrarExtrato();
-                    break;
-                case 5:
-                    Environment.Exit(0);
-                    break;
-
-            }
-        }
-        catch (Exception e)
-        {
-
-            Console.WriteLine(e.Message);
-        }
-        return atualizarSaldo;
-
-    }
-    public static string AnalisadorPerfilInvestidor(int pontuacao)
-    {
-        //metodo verificador do saldo acumulado, conforme as escolhas do investidor
+       //METODO QUE VERIFICA PONTUAÇÃO E ATRIBUI O NOME DO PERFIL
         string perfil = "";
         if (pontuacao <= 6)
         {
             perfil = "Conservador";
         }
-        else if (pontuacao <= 10)
+        else if (pontuacao <= 11)
         {
             perfil = "Moderado";
         }
@@ -180,20 +139,13 @@ internal class ContaInvestimento : Conta
         return perfil;
 
     }
-    public override void Depositar(double valor)
-    {
-        base.Depositar(valor);
-
-    }
-    public override void Sacar(double valor)
-    {
-        base.Sacar(valor);
-    }
 
     public static double ComprarAcao(double valorEmConta)
     {
+        // METODO DE COMPRAR AÇÃO
+
         Console.WriteLine("Digite o código do Papel que deseja comprar");
-        string codigoPapel = Console.ReadLine();
+        string codigoPapel = Console.ReadLine().ToUpper();
 
         Console.WriteLine($"Digite o valor que deseja investir em {codigoPapel}: ");
         double valorInvestidoNoPapel = ValidadorEConversorNumerico.ConverterParaDouble();
@@ -207,14 +159,44 @@ internal class ContaInvestimento : Conta
         }
         else
         {
+            
             Console.WriteLine("Compra Realizada!");
-            sobra = valorEmConta - valorInvestidoNoPapel;
 
+            //ATUALIZA O SALDO DA CONTA
+            sobra = valorEmConta - valorInvestidoNoPapel;
+            
+            // INCLUI TRANSAÇÃO DE COMPRA NO EXTRATO
+            painel_Investimento.IncluirTransacaoNoPainel(codigoPapel, valorInvestidoNoPapel);
         }
         return sobra;
     }
 
+    public virtual void TaxaBancaria()
+    {
+        /*Se for multiplicação o calculo da taxa, usar este codigo
+         * double percentualDeDesconto = 0.0;
+         * double TaxaManutencao = 0.0;
+         * 
+         * TaxaManutencao = Saldo * percentualDeDesconto;
+         * 
+         * Saldo -=TaxaManutencao;
+         */
+
+        //Se for uma conta de subtração usar este aqui
+        double TaxaManutencao = 0.8;
+
+        Saldo -= TaxaManutencao;
+        IncluirTransacaoNoExtrato(TipoOperacao.TAXA_MANUTENÇAO, TaxaManutencao);
+    }
+
+
 }
+
+
+
+
+
+
 
 
 

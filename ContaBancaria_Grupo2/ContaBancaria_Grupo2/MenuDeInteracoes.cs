@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -9,49 +10,47 @@ namespace ContaBancaria_Grupo2
 {
     public class MenuDeInteracoes
     {
-        public static int MenuContaInvestimento()
+        //MENU DINAMICO, AS ALTERNATIVAS COMUM NAS CLASSES ESTÃO FIXADAS NA LISTA
+        // AS ALTERATIVAS EXCUSIVAS SÃO DEFINIDAS EM CADA CONTA E ACRESCENTAS NA LISTA
+        public static List<string> ItensMenu { get; set; } = new List<string>() { "Depositar", "Saque", "Extrato", "Sair" };
+
+        //METODO QUE ADICIONA O NOVO NOME DA TRANSAÇAO NO MENU
+        public static void MostrarMenu(string novoItem = "")
         {
-            Console.WriteLine("O que deseja fazer?\n" +
-            "(1) Deposito\n" +
-            "(2) Saque\n" +
-            "(3) Comprar Ações\n" +
-            "(4) Extrato\n" +
-            "(5) Sair");
+            string descricaoMenu = "";
 
+            if(novoItem != "")
+                ItensMenu.Insert(0, novoItem);
 
-            int retorno = ValidadorEConversorNumerico.ValidarEntradaMenuInvestidor();
+            for (int i = 1; i <= ItensMenu.Count; i++)
+            {
+                descricaoMenu += $"({i}) {ItensMenu[i-1]} {Environment.NewLine}";
+            }
 
-            return retorno;
+            Console.WriteLine(descricaoMenu);
         }
 
-        public static int MenuContaSalario()
+        //METODO QUE VERIFICA SE A OPÇÃO DIGITADA NO MENU EXISTE NAS ALTERNATIVAS LISTADAS
+        public static string EscolherMenu()
         {
-            Console.WriteLine("O que deseja fazer?\n" +
-           "(1) Depositar Salário\n" +
-           "(2) Saque\n" +
-           "(3) Extrato\n" +
-           "(4) Sair");
-
-
-            int retorno = ValidadorEConversorNumerico.ValidarEntradaMenuInvestidor();
-
-            return retorno;
-
+            int retorno = ValidadorEConversorNumerico.ConverterParaNumero();
+            var itemExiste = retorno <= ItensMenu.Count;
+            if (itemExiste)
+            {
+                Console.WriteLine($"Você escolheu o item {retorno}");
+                return ItensMenu[retorno - 1];
+            }
+            else
+            {
+                Console.WriteLine("Menu não existe, por favor escolha um número válido.");
+                return EscolherMenu();
+            }
+            
         }
-        public static int MenuContaPoupanca()
-        {
-            Console.WriteLine("O que deseja fazer?\n" +
-           "(1) Tranferência para Poupança\n" +
-           "(2) Saque\n" +
-           "(3) Extrato\n" +
-           "(4) Sair");
 
 
-            int retorno = ValidadorEConversorNumerico.ValidarEntradaMenuInvestidor();
 
-            return retorno;
-
-        }
+       
 
     }
 }

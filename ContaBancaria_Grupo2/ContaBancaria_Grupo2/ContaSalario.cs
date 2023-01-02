@@ -13,12 +13,10 @@ class ContaSalario : Conta
 {
     public string NomeEmpregador { get; protected set; }
     public long Cnpj { get; protected set; }
-
     public string Cargo { get; protected set; }
     public double Salario { get; protected set; }
     public ContaSalario(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf, string empregador = "") : base(numeroConta, numeroAgencia, nomeCompleto, cpf)
     {
-
         SolicitarDadosHolerite(empregador);
     }
 
@@ -32,7 +30,7 @@ class ContaSalario : Conta
             this.NomeEmpregador = Console.ReadLine();
 
             Console.WriteLine("CNPJ da Empresa: ");
-            this.Cnpj = ValidadorEConversorNumerico.ConverterParaLong();
+            this.Cnpj = ValidadorEConversorNumerico.ConverterParaLongCnpj();
 
             Console.WriteLine("Seu Cargo: ");
             this.Cargo = Console.ReadLine();
@@ -40,91 +38,41 @@ class ContaSalario : Conta
             Console.WriteLine("Seu Salário Bruto: ");
             this.Salario = ValidadorEConversorNumerico.ConverterParaDouble();
 
-            Console.Clear();
+
+            //CONTA CRIADA, EXIBIÇÃO DE NOVA TELA DE ACESSO
+            ConfiguracaoLayout.ClearLayout(); ;
             Saudacao("Salário");
-            Console.WriteLine($"Seu Saldo Atual {Saldo}");
+            Console.WriteLine($"Seu Saldo Atual {Saldo}{Environment.NewLine}");
         }
         else
         {
-            //se o acesso for atraves da opçao acessar conta existente, iniciara por aqui
-            //com os dados do holerites setados.
+
+            //NESTE CASO HABILITA O ACESSO PELA CONTA EXISTENTE, ENTÃO OS ARGUMENTOS PARA ATRIBUIÇÃO DAS PROPRIEDADES SÃO DIFERENTES
+            
             NomeEmpregador = empregador;
             Cnpj = 00112112000139;
             Cargo = "Vendedor";
             Salario = 2500.00;
 
-            Console.Clear();
+            ConfiguracaoLayout.ClearLayout(); ;
 
-            //mensagem de boas vindas
-            Console.WriteLine($"Bem Vindo(a),{NomeCompleto}\nAg:{NumeroAgencia} conta Salário:{NumeroConta}");
-            Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
+            Console.WriteLine($"{Environment.NewLine}Bem Vindo(a),{NomeCompleto}\nAg:{NumeroAgencia} conta Salário:{NumeroConta} {Environment.NewLine}");
+            Console.WriteLine($"{Environment.NewLine}Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
         }
-        //apos iniciar a conta aparecerá o menu mostrando as possibilidades com novas interações
-        // o menu aparece no console, indeterminadas vezes, até que a opção 5 seja acionada, assim ele encerrará
-
-        int escolhaDigitadaNoMenu = MenuDeInteracoes.MenuContaSalario();
-        do
-        {
-
-
-            Saldo = MenuEscolhas(escolhaDigitadaNoMenu, Saldo);
-            Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
-
-            escolhaDigitadaNoMenu = MenuDeInteracoes.MenuContaSalario();
-
-        } while (escolhaDigitadaNoMenu < 5);
-
-
+        
+        TaxaBancaria();
+        TipoAcaoDaConta = "Depositar Salário";
+        AcoesDaConta();
 
     }
-    private double MenuEscolhas(int escolha, double valorEmConta)
-    {
-        double atualizarSaldo = valorEmConta;
-        try
-        {
-            
-            switch (escolha)
-            {
+   
 
-                case 1:
-                    Console.WriteLine("Qual valor deseja Depositar:");
-                    double valorDeposito = ValidadorEConversorNumerico.ConverterParaDouble();
-                    Depositar(valorDeposito);
-                    atualizarSaldo = valorEmConta + valorDeposito;
-                    IncluirTransacaoNoExtrato(TipoOperacao.DEPOSITO_SALARIO, valorDeposito);
-                    break;
-
-                case 2:
-                    Console.WriteLine("Qual valor deseja Sacar:");
-                    double valorSaque = ValidadorEConversorNumerico.ConverterParaDouble();
-                    Sacar(valorSaque);
-                    atualizarSaldo = valorEmConta - valorSaque;
-                    IncluirTransacaoNoExtrato(TipoOperacao.SAQUE, valorSaque);
-                    break;
-
-                case 3:
-                    atualizarSaldo = valorEmConta;
-                    MostrarExtrato();
-                    break;
-                case 4:
-                    Environment.Exit(0);
-                    break;
-
-            }
-        }
-        catch (Exception e )
-        {
-
-            Console.WriteLine(e.Message); 
-        }
-        return atualizarSaldo;
-
-    }
-
+    //O METODO DE DEPOSITO E INCLUIDO UMA CONDIÇÃO
     public override void Depositar(double valor)
     {
         Console.WriteLine("informe o CNPJ do Empregador:");
-        long numeroCnpj = ValidadorEConversorNumerico.ConverterParaLong();
+        long numeroCnpj = ValidadorEConversorNumerico.ConverterParaLongCnpj();
+
         if (numeroCnpj != Cnpj)
         {
             throw new Exception("Dado Inválido!");
@@ -135,11 +83,32 @@ class ContaSalario : Conta
         }
 
 
-
-
     }
 
+    public virtual void TaxaBancaria()
+    {
+        /*Se for multiplicação o calculo da taxa, usar este codigo
+         * double percentualDeDesconto = 0.0;
+         * double TaxaManutencao = 0.0;
+         * 
+         * TaxaManutencao = Saldo * percentualDeDesconto;
+         * 
+         * Saldo -=TaxaManutencao;
+         */
 
+        //Se for uma conta de subtração usar este aqui
+        double TaxaManutencao = 0.3;
+
+        Saldo -= TaxaManutencao;
+        IncluirTransacaoNoExtrato(TipoOperacao.TAXA_MANUTENÇAO, TaxaManutencao);
+    }
+
+    /*
+     * 
+    - Para a contaInvestimento: taxa de 0.8
+    - Para a contaPoupanca: taxa de 0.3,5
+    - Para a contaSalario: taxa de 0.3
+    */
 
 }
 
