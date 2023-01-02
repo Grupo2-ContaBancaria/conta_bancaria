@@ -17,11 +17,15 @@ namespace ContaBancaria_Grupo2
         //METODO QUE ADICIONA O NOVO NOME DA TRANSAÇAO NO MENU
         public static void MostrarMenu(string novoItem = "")
         {
+            //SE A CONTA TIVER UMA OPÇÃO NOVA NO MENU, SERÁ ENVIADA AQUI E ACRESCENTA NESTE METODO NA POSIÇÃO ZERO DA LISTA
             string descricaoMenu = "";
 
             if(novoItem != "")
                 ItensMenu.Insert(0, novoItem);
 
+            //O I REPRESENTA AS INDICAÇÕES DISPONIVEIS NO MENU, FICA VISIVE PARA O USUARIO,
+            //POR ESTE MOTIVO ELE INICIA NO 1
+            //NA INDICAÇÃO DE ITENSMENU MOSTRA I-1 PARA INDICAR A POSIÇÃO DOS NOMES REAJUSTADOS, CONSIDERANDO SUA POSIÇÃO NA LISTA(INDEX)
             for (int i = 1; i <= ItensMenu.Count; i++)
             {
                 descricaoMenu += $"({i}) {ItensMenu[i-1]} {Environment.NewLine}";
