@@ -33,9 +33,10 @@ namespace ContaBancaria_Grupo2
 
                         //ESTA FUNÇÃO LER A ENTRADA, VALIDA E CONVERTE
                         retorno = ValidadorEConversorNumerico.ConverterParaNumero();
+
                         ConfiguracaoLayout.ClearLayout();
 
-                    } while (retorno < 0 || retorno > 3);
+                    } while (retorno < 1|| retorno > 3);
                     // O WHILE FUNCIONA COMO VALIDADOR, POIS ELE SÓ ACEITA COMO TRUE SE FOR 1,2,3
 
                     //FUNÇÃO QUE DIRECIONA PARA ABRIR CONTA

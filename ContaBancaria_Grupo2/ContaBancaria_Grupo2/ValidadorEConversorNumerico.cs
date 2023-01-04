@@ -115,6 +115,21 @@ namespace ContaBancaria_Grupo2
 
 
         }
+
+        public static string ColetarNomeCompleto()
+        {
+            Console.WriteLine("Digite seu NOME COMPLETO:");
+            string NomeCompleto = Console.ReadLine().ToUpper();
+            var nomeCompletoConcatenado = NomeCompleto.Trim().Split(' ').Length;            
+            
+            if (nomeCompletoConcatenado <= 1)
+            {
+                Console.WriteLine("É necessario Digitar seu SOBRENOME:");
+                return ColetarNomeCompleto();
+            }
+
+            return NomeCompleto;
+        }
         
     }
 }

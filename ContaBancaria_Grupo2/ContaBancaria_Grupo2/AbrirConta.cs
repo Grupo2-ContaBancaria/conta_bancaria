@@ -9,7 +9,7 @@ namespace ContaBancaria_Grupo2
     class AbrirConta
     {
         public static void AbrirContas(int numeroQueEscolheQualACategoriaDaConta)
-        {            
+        {
 
             Console.WriteLine("Dados Obrigatorios:\n");
 
@@ -17,22 +17,16 @@ namespace ContaBancaria_Grupo2
             //CONTA O USUARIO DESEJA ABRIR, ESTA INFORMAÇÃO  E O ARGUMENTO RECEBIDO E ATRIBUIDO NA VARIAVEL RETORNO
 
             int retorno = numeroQueEscolheQualACategoriaDaConta;
-            
+
             //NA OPÇÃO ABRIR CONTA É NECESSARIO, QUE O USUARIO DIGITE SEM NOME E CPF
             //POIS ESTES DADOS SERÃO SETADOS NA PROPRIEDADE OBRIGATORIA DA CLASSE ABSTRATA CONTA
-            
+
             string NomeCompleto = "";
             long cpf = 0;
 
-            
-            Console.WriteLine("Digite seu NOME COMPLETO:");
-            NomeCompleto = Console.ReadLine().ToUpper();
-
-            if(NomeCompleto.Split(' ')[1] == "")
-            {
-                Console.WriteLine("É necessario Digitar seu SOBRENOME:");
-                NomeCompleto.Split(' ')[1] = Console.ReadLine().ToUpper();
-            }
+            //O NOMECOMPLETO, CHAMA UM METODO QUE PEDE O NOME, LER O DADO, VALIDA SE O USUARIO DIGITOU 2 NOMES, CASO NÃO TENHA FEITO, FICA NO LOOP
+            NomeCompleto = ValidadorEConversorNumerico.ColetarNomeCompleto();
+                        
 
             Console.WriteLine("Digite os 11 digitos do seu CPF, sem traços ou pontos:");
 
@@ -40,17 +34,17 @@ namespace ContaBancaria_Grupo2
 
             // INSTANCIANDO A CONTA CONFORME ESCOLHA DO USUARIO, E ATRIBUINDO OS DADOS OBRIGATORIOS PARA SEREM SETADOS NO CONSTRUTOR
             //OS CAMPOS AGENCIA E CONTA ESTÃO FIXOS.
-            
+
             if (retorno == 1)
             {
                 ContaPoupanca contaP = new ContaPoupanca(258902, 2541, NomeCompleto, cpf, 0.0);
-                
+
             }
             else if (retorno == 2)
             {
                 ContaInvestimento contaI = new ContaInvestimento(25890022, 2541, NomeCompleto, cpf);
                 contaI.MontarPerfil();
-               
+
 
                 //Mostrar menu de ações do que fazer
             }
