@@ -62,6 +62,21 @@ public abstract class Conta : ListaExtrato
 
     }
 
+    public virtual void Tranferir(double valor)
+    {
+        if (Saldo < valor)
+        {
+            //SE O SALDO FOR MENOR QUE A OPERAÇÃO, INDICO UM ERRO
+            throw new Exception("Operação Negada por falta de limite disponivel.");
+
+        }
+        else
+        {
+            Saldo -= valor;
+        }
+
+    }
+
     //MENSAGEM 
     public virtual void Saudacao(string tipo_conta = "")
     {
@@ -145,6 +160,21 @@ public abstract class Conta : ListaExtrato
                     Sacar(valorSaque);
                     atualizarSaldo = valorEmConta - valorSaque;
                     IncluirTransacaoNoExtrato(TipoOperacao.SAQUE, valorSaque);
+                    break;
+
+                case "TRANFERÊNCIA":
+
+                    Console.WriteLine("Digite os dados da Agência de Destino:");
+                    string numeroAgencia = Console.ReadLine();
+                    Console.WriteLine("Digite os dados da Conta de Destino:");
+                    string numeroConta = Console.ReadLine();
+
+                    Console.WriteLine("Digite o valor:");
+                    double valorTransferido = ValidadorEConversorNumerico.ConverterParaDouble();
+
+                    Tranferir(valorTransferido);
+                    atualizarSaldo = valorEmConta - valorTransferido;
+                    IncluirTransacaoNoExtrato(TipoOperacao.TRANSFERÊNCIA, valorTransferido);
                     break;
 
                 case "EXTRATO":

@@ -10,6 +10,7 @@ namespace ContaBancaria_Grupo2
         {
             SAQUE,
             DEPOSITO,
+            TRANSFERÊNCIA,
             COMPRA_ACAO,
             DEPOSITO_SALARIO,
             TAXA_MANUTENÇAO

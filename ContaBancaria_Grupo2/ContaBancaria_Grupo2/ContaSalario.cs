@@ -62,6 +62,7 @@ class ContaSalario : Conta
         
         TaxaBancaria();
         TipoAcaoDaConta = "Depositar Salário";
+        
         AcoesDaConta();
 
     }

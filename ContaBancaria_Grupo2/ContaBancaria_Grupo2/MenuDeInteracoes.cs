@@ -12,7 +12,7 @@ namespace ContaBancaria_Grupo2
     {
         //MENU DINAMICO, AS ALTERNATIVAS COMUM NAS CLASSES ESTÃO FIXADAS NA LISTA
         // AS ALTERATIVAS EXCUSIVAS SÃO DEFINIDAS EM CADA CONTA E ACRESCENTAS NA LISTA
-        public static List<string> ItensMenu { get; set; } = new List<string>() { "Depositar", "Saque", "Extrato", "Sair" };
+        public static List<string> ItensMenu { get; set; } = new List<string>() { "Depositar", "Saque", "Tranferência" ,"Extrato", "Sair" };
 
         //METODO QUE ADICIONA O NOVO NOME DA TRANSAÇAO NO MENU
         public static void MostrarMenu(string novoItem = "")
