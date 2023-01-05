@@ -113,9 +113,10 @@ class ContaInvestimento : Conta
         //NO MENU DE OPÇÃO DESTA CONTA É INCLUIDO UMA NOVA OPÇÃO
 
         TipoAcaoDaConta = "Comprar Ação";
+       
 
         //METODO QUE EXIBE MENU DE ATIVIDADES DA CONTA
-        AcoesDaConta();
+        AcoesDaConta("INVESTIMENTO");
 
 
     }
@@ -165,8 +166,9 @@ class ContaInvestimento : Conta
             //ATUALIZA O SALDO DA CONTA
             sobra = valorEmConta - valorInvestidoNoPapel;
             
-            // INCLUI TRANSAÇÃO DE COMPRA NO EXTRATO
+            // INCLUI TRANSAÇÃO DE COMPRA NO EXTRATO DE PATRIMONIO
             painel_Investimento.IncluirTransacaoNoPainel(codigoPapel, valorInvestidoNoPapel);
+
         }
         return sobra;
     }

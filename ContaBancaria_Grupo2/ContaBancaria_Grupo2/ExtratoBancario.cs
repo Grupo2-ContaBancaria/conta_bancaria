@@ -11,12 +11,14 @@ namespace ContaBancaria_Grupo2
             SAQUE,
             DEPOSITO,
             TRANSFERÊNCIA,
+            TRANSFERÊNCIA_COFRINHO,
+            RESGATE_COFRINHO,
             COMPRA_ACAO,
             DEPOSITO_SALARIO,
             TAXA_MANUTENÇAO
         }
-        public TipoOperacao Tipo { get; set; }
-        public double ValorOperacao { get; set; }
+        public TipoOperacao Tipo { get;  set; }
+        public double ValorOperacao { get;  set; }
 
 
     }

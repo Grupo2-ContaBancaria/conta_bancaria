@@ -14,6 +14,7 @@ public abstract class Conta : ListaExtrato
     public string NomeCompleto { get; protected set; }
     public long CPF { get; protected set; }
     public double Saldo { get; protected set; }
+    public double SaldoCofrinho { get; protected set; }
 
     public string TipoAcaoDaConta { get; protected set; } = "";
 
@@ -46,6 +47,21 @@ public abstract class Conta : ListaExtrato
     public virtual void Depositar(double valor)
     {
         Saldo += valor;
+    }
+    public virtual void Resgatar(double valor)
+    {
+        if (SaldoCofrinho < valor)
+        {
+            //SE O SALDO FOR MENOR QUE A OPERAÇÃO, INDICO UM ERRO
+            throw new Exception("Operação Negada por falta de limite disponivel.");
+
+        }
+        else
+        {
+            Saldo += valor;
+            SaldoCofrinho -= valor;
+        }
+
     }
     public virtual void Sacar(double valor)
     {
@@ -113,16 +129,47 @@ public abstract class Conta : ListaExtrato
 
 
     //METODO DO MENU DE OPÇÕES E ACOES DISPONIVEIS DAS CONTAS
-    public void AcoesDaConta()
+    public void AcoesDaConta(string tipoContaQueChamou)
     {
-        while (true)
+        if (tipoContaQueChamou == "INVESTIMENTO" || tipoContaQueChamou == "SALARIO")
         {
-            MenuDeInteracoes.MostrarMenu(TipoAcaoDaConta);
-            TipoAcaoDaConta = "";
-            MenuEscolhas(MenuDeInteracoes.EscolherMenu(), Saldo);
-            Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}{Environment.NewLine}");
-            Console.WriteLine($"O que deseja fazer agora?");
+            while (true)
+            {
+                MenuDeInteracoes.MostrarMenu(" ", TipoAcaoDaConta);
+                TipoAcaoDaConta = "";
+                MenuEscolhas(MenuDeInteracoes.EscolherMenu(), Saldo);
+
+                Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
+                Console.WriteLine($"Cofrinho {SaldoCofrinho.ToString("F2", CultureInfo.InvariantCulture)}{Environment.NewLine}");
+                Console.WriteLine($"O que deseja fazer agora?");
+            }
         }
+        else if (tipoContaQueChamou == "POUPANÇA")
+        {
+            while (true)
+            {
+                MenuDeInteracoes.MostrarMenu("POUPANÇA", TipoAcaoDaConta);
+                TipoAcaoDaConta = "";
+                string escolhaUsuario = MenuDeInteracoes.EscolherMenu();
+
+                if (escolhaUsuario == "Transferência")
+                {
+                    MenuEscolhas("SAIDA", Saldo);
+
+                }
+                else
+                {
+                    MenuEscolhas(escolhaUsuario, Saldo);
+
+                }
+
+
+                Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
+                Console.WriteLine($"O que deseja fazer agora?");
+            }
+
+        }
+
 
     }
 
@@ -153,6 +200,17 @@ public abstract class Conta : ListaExtrato
                     IncluirTransacaoNoExtrato(TipoOperacao.DEPOSITO, valorDeposito);
                     break;
 
+                //Resgatar Cofrinho verificar com o grupo
+                case "RESGATAR COFRINHO":
+
+                    Console.WriteLine("Qual valor deseja Resgatar:");
+                    double valorResgate = ValidadorEConversorNumerico.ConverterParaDouble();
+                    Resgatar(valorResgate);
+
+                    atualizarSaldo = valorEmConta + valorResgate;
+                    IncluirTransacaoNoExtrato(TipoOperacao.RESGATE_COFRINHO, valorResgate);
+                    break;
+
                 case "SAQUE":
 
                     Console.WriteLine("Qual valor deseja Sacar:");
@@ -162,19 +220,73 @@ public abstract class Conta : ListaExtrato
                     IncluirTransacaoNoExtrato(TipoOperacao.SAQUE, valorSaque);
                     break;
 
-                case "TRANFERÊNCIA":
+                case "TRANSFERÊNCIA":
+                    int escolhaUsuario = 0;
+                    int numeroAgencia, numeroConta = 0;
+                    double valorTransferido = 0;
+
+                    do
+                    {
+                        Console.WriteLine("Determine o tipo de Transferência:\n(1)Transferência entre Contas\n(2)Transferência para Cofrinho");
+                        escolhaUsuario = ValidadorEConversorNumerico.ConverterParaNumero();
+
+                    } while (escolhaUsuario < 1 || escolhaUsuario > 2);
+
+                    if (escolhaUsuario == 1)
+                    {
+                        Console.WriteLine("Digite os dados da Agência de Destino:");
+                        numeroAgencia = ValidadorEConversorNumerico.ConverterParaNumero();
+
+                        Console.WriteLine("Digite os dados da Conta de Destino:");
+                        numeroConta = ValidadorEConversorNumerico.ConverterParaNumero();
+
+                        Console.WriteLine("Digite o valor:");
+                        valorTransferido = ValidadorEConversorNumerico.ConverterParaDouble();
+
+                        Tranferir(valorTransferido);
+                        atualizarSaldo = valorEmConta - valorTransferido;
+                        IncluirTransacaoNoExtrato(TipoOperacao.TRANSFERÊNCIA, valorTransferido);
+
+
+                    }
+                    else if (escolhaUsuario == 2)
+                    {
+                        Console.WriteLine("Digite o valor:");
+                        valorTransferido = ValidadorEConversorNumerico.ConverterParaDouble();
+                        SaldoCofrinho += valorTransferido;
+
+                        Tranferir(valorTransferido);
+                        atualizarSaldo = valorEmConta - valorTransferido;
+                        IncluirTransacaoNoExtrato(TipoOperacao.TRANSFERÊNCIA_COFRINHO, valorTransferido);
+
+                    }
+                    break;
+
+                //Console.WriteLine("Digite o valor:");
+                //double valorTransferido = ValidadorEConversorNumerico.ConverterParaDouble();
+
+                //Tranferir(valorTransferido);
+                //atualizarSaldo = valorEmConta - valorTransferido;
+                //IncluirTransacaoNoExtrato(TipoOperacao.TRANSFERÊNCIA, valorTransferido);
+                //break;
+
+                case "SAIDA":
+
+                    int agencia, conta = 0;
+                    double valorTransferencia = 0;
 
                     Console.WriteLine("Digite os dados da Agência de Destino:");
-                    string numeroAgencia = Console.ReadLine();
+                    agencia = ValidadorEConversorNumerico.ConverterParaNumero();
+
                     Console.WriteLine("Digite os dados da Conta de Destino:");
-                    string numeroConta = Console.ReadLine();
+                    conta = ValidadorEConversorNumerico.ConverterParaNumero();
 
                     Console.WriteLine("Digite o valor:");
-                    double valorTransferido = ValidadorEConversorNumerico.ConverterParaDouble();
+                    valorTransferencia = ValidadorEConversorNumerico.ConverterParaDouble();
 
-                    Tranferir(valorTransferido);
-                    atualizarSaldo = valorEmConta - valorTransferido;
-                    IncluirTransacaoNoExtrato(TipoOperacao.TRANSFERÊNCIA, valorTransferido);
+                    Tranferir(valorTransferencia);
+                    atualizarSaldo = valorEmConta - valorTransferencia;
+                    IncluirTransacaoNoExtrato(TipoOperacao.TRANSFERÊNCIA, valorTransferencia);
                     break;
 
                 case "EXTRATO":
@@ -189,7 +301,13 @@ public abstract class Conta : ListaExtrato
 
                     double valorCompradoDeAcao = ContaInvestimento.ComprarAcao(valorEmConta);
                     atualizarSaldo = valorCompradoDeAcao;
-                    IncluirTransacaoNoExtrato(TipoOperacao.COMPRA_ACAO, (valorEmConta - valorCompradoDeAcao));
+
+                    if (valorCompradoDeAcao != valorEmConta)
+                    {
+                        IncluirTransacaoNoExtrato(TipoOperacao.COMPRA_ACAO, (valorEmConta - valorCompradoDeAcao));
+
+                    }
+
                     break;
 
 

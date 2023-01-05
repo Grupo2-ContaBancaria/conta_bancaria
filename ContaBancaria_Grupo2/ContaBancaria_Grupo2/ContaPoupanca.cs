@@ -58,7 +58,7 @@ class ContaPoupanca : Conta
         TaxaBancaria();
       
 
-        AcoesDaConta();
+        AcoesDaConta("POUPANÇA");
     }
 
     

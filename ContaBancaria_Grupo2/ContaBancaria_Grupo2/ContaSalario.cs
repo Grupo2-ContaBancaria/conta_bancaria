@@ -40,7 +40,7 @@ class ContaSalario : Conta
 
 
             //CONTA CRIADA, EXIBIÇÃO DE NOVA TELA DE ACESSO
-            ConfiguracaoLayout.ClearLayout(); ;
+            ConfiguracaoLayout.ClearLayout(); 
             Saudacao("Salário");
             Console.WriteLine($"Seu Saldo Atual {Saldo}{Environment.NewLine}");
         }
@@ -50,9 +50,9 @@ class ContaSalario : Conta
             //NESTE CASO HABILITA O ACESSO PELA CONTA EXISTENTE, ENTÃO OS ARGUMENTOS PARA ATRIBUIÇÃO DAS PROPRIEDADES SÃO DIFERENTES
             
             NomeEmpregador = empregador;
-            Cnpj = 00112112000139;
-            Cargo = "Vendedor";
-            Salario = 2500.00;
+            Cnpj = 11111111111111;
+            Cargo = "CargoTeste Sr.";
+            Salario = 25000.00;
 
             ConfiguracaoLayout.ClearLayout(); ;
 
@@ -63,7 +63,7 @@ class ContaSalario : Conta
         TaxaBancaria();
         TipoAcaoDaConta = "Depositar Salário";
         
-        AcoesDaConta();
+        AcoesDaConta("SALARIO");
 
     }
    
