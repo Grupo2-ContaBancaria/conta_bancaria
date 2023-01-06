@@ -37,16 +37,16 @@ namespace ContaBancaria_Grupo2
             //INSTANCIANDO A CONTA COM OS ARGUMENTOS NECESSARIOS PARA PREENCHIMENTO DAS PROPRIEDADES OBRIGATORIAS
             if (retorno == 1)
             {
-                ContaPoupanca contaP = new ContaPoupanca(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345678910, 50.00);
+                ContaPoupanca contaP = new ContaPoupanca(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345678910,"Poupança", 50.00);
             }
             else if (retorno == 2)
             {
-                ContaInvestimento contaI = new ContaInvestimento(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345678910);
+                ContaInvestimento contaI = new ContaInvestimento(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345678910, "Investimento");
                 contaI.MontarPerfil("Moderado");
             }
             else if (retorno == 3)
             {
-                ContaSalario contaS = new ContaSalario(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345678910, "Maquina de Nomes Ltda");
+                ContaSalario contaS = new ContaSalario(numeroConta, numeroAgencia, "Jaqueline Laurenti", 12345678910, "Salario", "Maquina de Nomes Ltda");
             }
 
         }

@@ -12,19 +12,20 @@ public abstract class Conta : ListaExtrato
     public int NumeroConta { get; protected set; }
     public int NumeroAgencia { get; protected set; }
     public string NomeCompleto { get; protected set; }
+    public string TipoConta { get; protected set; }
     public long CPF { get; protected set; }
     public double Saldo { get; protected set; }
     public double SaldoCofrinho { get; protected set; }
 
     public string TipoAcaoDaConta { get; protected set; } = "";
 
-    public Conta(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf)
+    public Conta(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf, string tipoConta)
     {
         NumeroConta = numeroConta;
         NumeroAgencia = numeroAgencia;
         NomeCompleto = nomeCompleto;
         CPF = cpf;
-
+        TipoConta = tipoConta;
     }
 
     public DateTime DataAberturaConta
@@ -94,9 +95,9 @@ public abstract class Conta : ListaExtrato
     }
 
     //MENSAGEM 
-    public virtual void Saudacao(string tipo_conta = "")
+    public virtual void Saudacao()
     {
-        var mensagem = $"Olá, {NomeCompleto.Split(" ")[0]}, Bem Vindo(a)!!Sua conta {tipo_conta} foi aberta.\nSeus Dados:\nConta: {NumeroConta}\nAgencia: {NumeroAgencia}.{Environment.NewLine}";
+        var mensagem = $"Olá, {NomeCompleto.Split(" ")[0]}, Bem Vindo(a)!!Sua conta {TipoConta} foi aberta.\nSeus Dados:\nConta: {NumeroConta}\nAgencia: {NumeroAgencia}.{Environment.NewLine}";
         Console.WriteLine(mensagem);
     }
 

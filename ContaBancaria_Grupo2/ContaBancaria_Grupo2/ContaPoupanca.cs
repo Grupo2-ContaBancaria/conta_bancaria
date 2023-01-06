@@ -10,7 +10,7 @@ class ContaPoupanca : Conta
 {
     //ESTA CLASSE HERDA AS PROPRIEDADES OBRIGATORIAS DA CLASSE CONTA 
 
-    public ContaPoupanca(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf, double saldoInicial) : base(numeroConta, numeroAgencia, nomeCompleto, cpf)
+    public ContaPoupanca(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf, string tipoConta,double saldoInicial) : base(numeroConta, numeroAgencia, nomeCompleto, cpf, tipoConta)
     {
         double primeiroDeposito = saldoInicial;
         
@@ -35,7 +35,7 @@ class ContaPoupanca : Conta
             //INICIA UMA NOVA TELA
             ConfiguracaoLayout.ClearLayout();
 
-            Saudacao("Poupança");
+            Saudacao();
             Console.WriteLine($"Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}{Environment.NewLine}");
         }
         else

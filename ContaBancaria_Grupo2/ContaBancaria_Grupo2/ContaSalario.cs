@@ -15,7 +15,7 @@ class ContaSalario : Conta
     public long Cnpj { get; protected set; }
     public string Cargo { get; protected set; }
     public double Salario { get; protected set; }
-    public ContaSalario(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf, string empregador = "") : base(numeroConta, numeroAgencia, nomeCompleto, cpf)
+    public ContaSalario(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf, string tipoConta,string empregador = "") : base(numeroConta, numeroAgencia, nomeCompleto, cpf, tipoConta)
     {
         SolicitarDadosHolerite(empregador);
     }
@@ -41,7 +41,7 @@ class ContaSalario : Conta
 
             //CONTA CRIADA, EXIBIÇÃO DE NOVA TELA DE ACESSO
             ConfiguracaoLayout.ClearLayout(); 
-            Saudacao("Salário");
+            Saudacao();
             Console.WriteLine($"Seu Saldo Atual {Saldo}{Environment.NewLine}");
         }
         else

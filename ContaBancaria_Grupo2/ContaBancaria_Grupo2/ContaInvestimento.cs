@@ -16,7 +16,7 @@ class ContaInvestimento : Conta
     public static Painel_Investimento? painel_Investimento { get;protected set; }
 
     //CONSTRUTORA DA CLASSE
-    public ContaInvestimento(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf) : base(numeroConta, numeroAgencia, nomeCompleto, cpf)
+    public ContaInvestimento(int numeroConta, int numeroAgencia, string nomeCompleto, long cpf, string tipoConta) : base(numeroConta, numeroAgencia, nomeCompleto, cpf, tipoConta)
     {
         painel_Investimento = new Painel_Investimento("", 0);
     }
@@ -87,7 +87,7 @@ class ContaInvestimento : Conta
             //A PROPRIEDADE RECEBE O NOME DO PERFIL DO USUARIO, CONFORME SUAS ESCOLHAS NO FORMULARIO.
             Perfil = qualificacaoInvestidor;
 
-            Saudacao($"Investimento");
+            Saudacao();
 
             Console.WriteLine($"{Environment.NewLine}Seu Saldo Atual {Saldo.ToString("F2", CultureInfo.InvariantCulture)}");
 

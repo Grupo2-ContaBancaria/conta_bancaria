@@ -37,12 +37,12 @@ namespace ContaBancaria_Grupo2
 
             if (retorno == 1)
             {
-                ContaPoupanca contaP = new ContaPoupanca(258902, 2541, NomeCompleto, cpf, 0.0);
+                ContaPoupanca contaP = new ContaPoupanca(258902, 2541, NomeCompleto, cpf,"Poupança", 0.0);
 
             }
             else if (retorno == 2)
             {
-                ContaInvestimento contaI = new ContaInvestimento(25890022, 2541, NomeCompleto, cpf);
+                ContaInvestimento contaI = new ContaInvestimento(25890022, 2541, NomeCompleto, cpf, "Investimento");
                 contaI.MontarPerfil();
 
 
@@ -50,7 +50,7 @@ namespace ContaBancaria_Grupo2
             }
             else if (retorno == 3)
             {
-                ContaSalario contaS = new ContaSalario(27852322, 2541, NomeCompleto, cpf, "");
+                ContaSalario contaS = new ContaSalario(27852322, 2541, NomeCompleto, cpf, "Salario", "");
             }
 
         }
